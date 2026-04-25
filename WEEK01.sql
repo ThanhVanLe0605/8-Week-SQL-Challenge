@@ -4,6 +4,7 @@ use sql_challenge
 -- LINK 01 : https://www.youtube.com/watch?v=cXhv4kmIzFw
 -- LINK 02: https://youtu.be/OdnxoJitdAg?si=Mnyt5e6ViZYPI9K5
 -- LINK 03: 
+
 --  week 01: Case Study #1 - Danny's Diner Danny 
 
 -- 1. TẠO SCHEMA
@@ -348,6 +349,7 @@ ORDER BY   r.customer_id ASC
 
 -- khách hàng có thể là khách tại quán, sau một thời gian sử dụng thì đk thẻ thành viên
 -- vậy ngày mua hàng sau khi đăng ký thẻ chưa chắc là ngày mua hàng sớm nhất trong cột order_date bảng sales 
+
 WITH rank_date_by_cust  AS(
 	SELECT 
 			s.customer_id,
@@ -374,30 +376,213 @@ SELECT
 FROM	rank_date_by_cust rd
 WHERE	rd.rank_date = 1
 
+
 -- dùng WHERE hay HAVING
 -- sau khi JOIN, dùng where để lọc record nào không thỏa đk 
 -- HAVING cũng để lọc, nhưng kết hợp với các hàm tổng hợp nhưu COUNT, SUM, AVG
 -- để đảm bảo hiệu suất, như trường hợp này, dùng WHERE chứ không dùng HAVING 
 
-
 ------------------------------------------------
 -- 5.7. Món nào được mua ngay trước khi khách hàng trở thành thành viên?
+-- Ý nghĩa kinh doanh:
+-- Xác định sản phẩm cuối cùng mà khách hàng mua trước khi họ quyết định đăng ký thành viên
+-- Điều này giúp hiểu "động cơ chuyển đổi": món ăn nào đã thuyết phục khách gắn bó lâu dài?
+-- Dữ liệu này có thể dùng để tạo ưu đãi đặc biệt cho những món đó nhằm thúc đẩy đăng ký thành viên.
+
+WITH motivating_items AS (
+SELECT
+		s.customer_id,
+		s.order_date,
+		m.join_date,
+		DENSE_RANK() OVER(PARTITION BY s.customer_id ORDER BY s.order_date DESC ) AS rank_date ,
+		s.product_id,
+		mn.product_name
+FROM dannys_diner.sales s
+INNER JOIN dannys_diner.members m ON s.customer_id = m.customer_id
+INNER JOIN dannys_diner.menu mn ON   s.product_id  = mn.product_id 
+WHERE s.order_date < m.join_date
+)
+SELECT 
+		m.customer_id AS Customer,
+		m.order_date AS Date_before_becoming_member,
+		m.join_date AS Join_date,
+		m.product_name AS motivating_items
+FROM motivating_items m
+WHERE m.rank_date = 1
+ORDER BY m.customer_id ASC
+		,m.order_date DESC
+
 ------------------------------------------------
--- 5.8. Tổng số món và số tiền đã chi tiêu của mỗi thành viên trước khi họ trở thành thành viên là bao nhiêu?
+-- 5.8. Tổng số món và số tiền đã chi tiêu của mỗi thành viên trước khi họ trở thành thành viên là bao nhiêu ?
+
+-- Ý nghĩa kinh doanh:
+-- Đo lường giá trị (revenue) và tần suất (số lượng món) mà mỗi khách hàng đã đóng góp trong giai đoạn "dùng thử" trước khi cam kết.
+-- Từ đó phân nhóm khách hàng tiềm năng: những ai chi tiêu nhiều trước khi đăng ký có thể là khách hàng giá trị cao, cần được chăm sóc đặc biệt
+-- So sánh với giai đoạn sau khi đăng ký để đánh giá hiệu quả của chương trình thành viên.
+
+-- Trích xuất các bản ghi trước ngày đăng ký, 
+-- GROUP BY  khách hàng, 
+--		   tính : 
+--					1. tiền khách đã bỏ ra để mua hàng trước khi đăng ký
+--					2. số mặt hàng khách hàng đã mua -> có thể lập lại Count distinct  
+
+SELECT
+	s.customer_id ,
+	-- tính các metrics
+	-- tổng tiền đã mua trước đk thành viên
+	SUM( mn.price) AS sum_price_before_member ,
+	-- tổng loại sp đã mua trước đk thành viên --> cho biết khách có sự đa dạng trong hành vi mua hay không 
+	COUNT(DISTINCT mn.product_name) AS toatal_type_item_before_member,
+	-- tổng số lượng sp đã mua trước đk thành viên --> cho biết mức tiêu thụ thực tế
+	COUNT( mn.product_name) AS toatal_items_before_member
+FROM	dannys_diner.sales s
+INNER JOIN dannys_diner.members m	ON s.customer_id = m.customer_id
+INNER JOIN dannys_diner.menu mn    ON s.product_id  = mn.product_id 
+-- Lọc ngày để đảm bảo điều kiện trước ngày đăng ký thành viên 
+WHERE s.order_date < m.join_date 
+-- Nhóm theo khách hàng để tính các metrics theo khách hàng 
+GROUP BY s.customer_id 
+-- Ưu tiên khách bỏ nhiều tiền nhất lên đầu danh sách 
+ORDER BY sum_price_before_member DESC
+
+
 ------------------------------------------------
 -- 5.9. Nếu mỗi 1 đô la chi tiêu tương đương 10 điểm và sushi có hệ số nhân điểm gấp đôi - thì mỗi khách hàng sẽ có bao nhiêu điểm?
+
+-- Ý nghĩa kinh doanh:
+-- Mô phỏng chương trình tích điểm để khuyến khích chi tiêu, đặc biệt thúc đẩy món sushi (có thể là món có lợi nhuận cao hoặc cần push).
+-- Kết quả cho thấy khách hàng nào mang lại nhiều điểm (giá trị tương đương) – từ đó có thể thiết kế các cấp độ thành viên (VIP, vàng, bạc) dựa trên điểm.
+
+WITH points_by_item_by_cust AS (
+		SELECT
+				s.customer_id,
+				s.order_date,
+				m.product_name,
+				m.price ,
+				-- Tạo cột tính điểm 
+				CASE 
+					WHEN m.product_name = 'sushi' THEN ( m.price * 20 )
+					ELSE ( m.price * 10 )
+				END AS points_by_item
+		FROM dannys_diner.sales s
+		INNER JOIN dannys_diner.menu m ON s.product_id = m.product_id 
+)
+SELECT
+		p.customer_id,
+		SUM(p.points_by_item) AS points_by_cust
+FROM  points_by_item_by_cust p
+GROUP BY p.customer_id
+ORDER BY points_by_cust DESC
+
+
 ------------------------------------------------
 -- 5.10. 
 -- Trong tuần đầu tiên sau khi khách hàng tham gia chương trình (bao gồm ngày tham gia)
 -- họ kiếm được điểm gấp đôi cho tất cả các món, không chỉ sushi
 -- vậy vào cuối tháng 1, khách hàng A và B có bao nhiêu điểm?
 
+-- Ý nghĩa kinh doanh:
+--- Đây là chương trình chào mừng thành viên mới – tạo động lực chi tiêu ngay trong tuần đầu để khách hàng hình thành thói quen
+--- Tính đến cuối tháng 1 giúp đo lường hiệu quả của chương trình trong "tháng đầu tiên" (thường dùng để đánh giá retention sớm)
+--- So sánh điểm của tuần đầu với các tuần sau để biết mức độ hưởng ứng.
+
+-- bảng : sales, members (join_date tính tuần đầu ), menu lấy price
+-- nhóm theo khách hàng để tính điểm cho mỗi khách 
+-- đk: phạm vi dữ liệu là cuối tháng 1 
+-- tuần đầu (1 đô = 20 điểm ) , còn lại (sau tuần đầu, trước khi đk thành viên ) tính bình thường (shshi thì 1 đô là 20 điểm, còn lại 1 đô là 10 điểm )
+WITH calculate_point_table AS(
+	SELECT
+			s.customer_id, 
+			s.order_date,
+			b.join_date,
+			DATEDIFF(day, b.join_date, s.order_date) AS days_from_member,
+			-- Tạo cột xem có phải tuần đầu tiên hay không 
+			CASE
+				WHEN DATEDIFF(day, b.join_date, s.order_date) BETWEEN 0 AND 6 THEN 1
+				ELSE 0
+			END AS First_Week, 
+			-- Tính điểm cho khách 
+			CASE
+				WHEN DATEDIFF(day, b.join_date, s.order_date) BETWEEN 0 AND 6 THEN ( m.price * 20 ) 
+				ELSE   (
+							CASE
+								WHEN m.product_name ='sushi' THEN (m.price * 20) 
+								ELSE (m.price * 10)
+							END 
+						) 
+			END AS points_by_item_for_week 
+	FROM dannys_diner.sales s
+	INNER JOIN dannys_diner.menu m ON s.product_id = m.product_id
+	INNER JOIN dannys_diner.members b ON s.customer_id = b.customer_id
+	WHERE s.order_date <= '2021-01-31'
+)
+SELECT
+		c.customer_id,
+		SUM(c.points_by_item_for_week) AS total_points_january
+FROM  calculate_point_table c
+GROUP BY c.customer_id
+ORDER BY c.customer_id ASC,
+		 SUM(c.points_by_item_for_week)  DESC
+
+
 ------------------------------------------------
 -- 6. Câu hỏi thưởng
 ------------------------------------------------
 -- 6.1. Kết hợp tất cả các dữ liệu
+-- Ý nghĩa kinh doanh:
+----- Tạo một báo cáo 360 độ cho mỗi giao dịch, bao gồm: 
+----- thông tin khách hàng (thành viên hay không), chi tiết món ăn, giá, điểm thưởng, và các cột đánh dấu (ví dụ: "trước/sau khi thành viên", "tuần đầu chào mừng")
+-----  Bảng này là nguồn cho các dashboard và phân tích tiếp theo.
+
+SELECT
+		s.customer_id,
+		s.order_date,
+		n.product_name,
+		n.price,
+		-- Tạo cột chỉ trạng thái thành viên
+		CASE
+			WHEN  s.order_date >=  m.join_date THEN 'Y'
+			ELSE 'N'
+		END AS status_member
+FROM dannys_diner.sales s
+LEFT OUTER JOIN dannys_diner.members m ON s.customer_id = m.customer_id 
+LEFT OUTER JOIN dannys_diner.menu n	ON s.product_id = n.product_id 
+ 
+
 ------------------------------------------------
 -- 6.2. Xếp hạng tất cả các dữ liệu
 ------------------------------------------------
-------------------------------------------------
-------------------------------------------------
+
+----- Ý nghĩa kinh doanh:
+----- Xếp hạng (ranking) giúp so sánh hiệu suất giữa các khách hàng, sản phẩm hoặc thời gian. Ví dụ:
+ 
+ WITH rank_data AS(
+	   SELECT
+				s.customer_id,
+				s.order_date,
+				n.product_name,
+				n.price,
+
+				-- Tạo cột chỉ trạng thái thành viên
+				CASE
+					WHEN  s.order_date >=  m.join_date THEN 'Y'
+					ELSE 'N'
+				END AS status_member, 
+
+				-- Tạo cột tính điểm (không áp dụng chương trinhd dành cho tuần đầu)
+				CASE 
+					WHEN n.product_name = 'sushi' THEN ( n.price * 20 )
+					ELSE ( n.price * 10 )
+				END AS points_by_item
+
+		FROM dannys_diner.sales s
+		LEFT OUTER JOIN dannys_diner.members m ON s.customer_id = m.customer_id 
+		LEFT OUTER JOIN dannys_diner.menu n	ON s.product_id = n.product_id 
+ )
+ SELECT
+		*,
+		CASE
+			WHEN r.status_member = 'N' THEN NULL
+			ELSE RANK() OVER (PARTITION BY r.customer_id, r.status_member ORDER BY r.points_by_item DESC)
+		END AS ranking
+ FROM	rank_data  r
