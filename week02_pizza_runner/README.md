@@ -36,7 +36,9 @@ Tôi đã thực hiện **toàn bộ quy trình** từ:
 *Xem chi tiết trong file `sql_scripts/01_data_preprocessing.sql`*
 
 ## 4. MÔ HÌNH DỮ LIỆU (SCHEMA SAU KHI LÀM SẠCH)
+
 ![Sơ đồ ERD](docs/04_erd_cau_truc_bonus.pdf)
+
 **Nhóm danh mục:**
 
   * runners (runner_id, registration_date): danh sách tài xế
