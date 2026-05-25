@@ -1,6 +1,7 @@
 # PIZZA RUNNER DATA ANALYSIS – SQL END-TO-END PROJECT
 ## 1. TỔNG QUAN DỰ ÁN
 **Mô tả**
+
 Dự án này mô phỏng một hệ thống quản lý đơn hàng pizza cho một startup giao đồ ăn.  
 Tôi đã thực hiện **toàn bộ quy trình** từ:
 - Làm sạch dữ liệu thô (raw data) từ nguồn https://8weeksqlchallenge.com/case-study-2/ có lỗi nhập liệu.
@@ -9,6 +10,7 @@ Tôi đã thực hiện **toàn bộ quy trình** từ:
 - Tối ưu hóa vận hành (tạo view, stored procedure).
 
 **Mục tiêu kinh doanh (Business Questions answered):**
+
 - Tối ưu hóa quy trình giao hàng: tìm ra runner nhanh nhất, tỷ lệ giao thành công.
 - Phân tích nguyên liệu: topping nào được thêm nhiều nhất, bỏ nhiều nhất.
 - Tính lợi nhuận ròng sau khi trừ chi phí vận chuyển.
