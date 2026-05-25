@@ -1,4 +1,25 @@
 # PIZZA RUNNER DATA ANALYSIS – SQL END-TO-END PROJECT
+
+##  Cấu trúc dự án
+
+week02_pizza_runner/
+├── README.md
+├── Docs/
+│   ├── pizza_runner_workflow.png
+│   ├── 01_erd_loi_mo_coi.pdf
+│   ├── 02_erd_sua_rang_buoc.pdf
+│   ├── 03_erd_toi_uu_truy_van.pdf
+│   └── 04_erd_cau_truc_bonus.pdf
+├── sql_scripts/
+│   ├── WEEK02_DataPreprocessing.sql
+│   └── Modification.sql
+└── Results/
+    ├── Pizza_Metrics_Results.ipynb
+    ├── Runner_and_Customer_Experience_Results.ipynb
+    ├── Ingredient_Optimisation_Results.ipynb
+    ├── Pricing_and_Ratings_Results.ipynb
+    └── Bonus_Questions_Results.ipynb
+
 ## 1. TỔNG QUAN DỰ ÁN
 **Mô tả**
 
