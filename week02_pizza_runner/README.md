@@ -36,16 +36,20 @@ Tôi đã thực hiện **toàn bộ quy trình** từ:
 ## 4. MÔ HÌNH DỮ LIỆU (SCHEMA SAU KHI LÀM SẠCH)
 ![Sơ đồ ERD](docs/04_erd_cau_truc_bonus.pdf)
 **Nhóm danh mục:**
+
   * runners (runner_id, registration_date): danh sách tài xế
   * pizza_names (pizza_id, pizza_name): tên các loại pizza
   * pizza_toppings (topping_id, topping_name): danh sách topping (nguyên liệu)
+    
 **Nhóm công thức:**
   * pizza_recipes (pizza_recipes_id, pizza_id, toppings): bảng nối pizza_id với topping_id, dùng để xác định topping mặc định của mỗi loại pizza.
+    
 **Nhóm giao dịch (đơn hàng):**
   * orders (order_id, customer_id, order_time): thông tin chốt đơn
   * customer_orders (customer_orders_id, order_id, pizza_id): từng chiếc pizza trong đơn
   * customer_orders_exclusions (customer_orders_id, topping_id): topping khách yêu cầu bỏ
   * customer_orders_extras (customer_orders_id, topping_id): topping khách yêu cầu thêm
+    
 **Nhóm vận hành:**
   * runner_orders (runner_order_id, order_id, runner_id, pickup_time, distance, duration, cancellation): thông tin về giao nhận 
 Tất cả các bảng đã được chuẩn hóa, có khóa chính và khóa ngoại đầy đủ, sẵn sàng cho phân tích.
