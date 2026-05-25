@@ -28,6 +28,11 @@ week02_pizza_runner/
 ## 1. TỔNG QUAN DỰ ÁN
 **Mô tả**
 
+<p align="center">
+  <img src="Docs/pizza_runner_workflow.png" alt="Pizza Runner Workflow" width="90%">
+</p>
+
+
 Dự án này mô phỏng một hệ thống quản lý đơn hàng pizza cho một startup giao đồ ăn.  
 Tôi đã thực hiện **toàn bộ quy trình** từ:
 - Làm sạch dữ liệu thô (raw data) từ nguồn https://8weeksqlchallenge.com/case-study-2/ có lỗi nhập liệu.
@@ -63,7 +68,9 @@ Tôi đã thực hiện **toàn bộ quy trình** từ:
 
 ## 4. MÔ HÌNH DỮ LIỆU (SCHEMA SAU KHI LÀM SẠCH)
 
-![Sơ đồ ERD](docs/04_erd_cau_truc_bonus.pdf)
+<p align="center">
+  <img src="Docs/03_erd_toi_uu_truy_van.jpg" alt="Pizza Runner Final ERD" width="100%">
+</p>
 
 **Nhóm danh mục:**
 
