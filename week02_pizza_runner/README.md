@@ -68,7 +68,7 @@ Tôi đã thực hiện **toàn bộ quy trình** từ:
 ## 4. MÔ HÌNH DỮ LIỆU (SCHEMA SAU KHI LÀM SẠCH)
 
 <p align="center">
-  <img src="Docs/03_erd_toi_uu_truy_van.jpg" alt="Pizza Runner Final ERD" width="100%">
+  <img src="Docs/02_erd_sua_rang_buoc.jpg" alt="Pizza Runner Final ERD" width="100%">
 </p>
 
 **Nhóm danh mục:**
