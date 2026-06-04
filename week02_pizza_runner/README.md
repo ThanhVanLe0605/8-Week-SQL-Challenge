@@ -6,13 +6,15 @@
 week02_pizza_runner/
 ├── Docs/                                    # Tài liệu và sơ đồ thiết kế hệ thống
 │   ├── pizza_runner_workflow.png            # Sơ đồ luồng vận hành của hệ thống
-│   ├── 01_erd_loi_mo_coi.pdf                # ERD ban đầu (Phát hiện lỗi quan hệ mồ côi)
-│   ├── 02_erd_sua_rang_buoc.pdf             # ERD giai đoạn 2 (Sửa đổi các ràng buộc PK/FK)
-│   └── 03_erd_cau_truc_bonus.pdf            # ERD hoàn thiện cuối cùng (Hỗ trợ mở rộng Menu)
+│   ├── 01_erd_loi_mo_coi.png                # ERD ban đầu (Phát hiện lỗi quan hệ mồ côi)
+│   ├── 02_erd_sua_rang_buoc.png             # ERD giai đoạn 2 (Sửa đổi các ràng buộc PK/FK)
+│   └── 03_erd_cau_truc_bonus.png              # ERD hoàn thiện cuối cùng (Hỗ trợ mở rộng Menu)
 │
 ├── sql_scripts/                             # Mã nguồn SQL xử lý dữ liệu
 │   ├── WEEK02_DataPreprocessing.sql         # Script làm sạch, chuẩn hóa dữ liệu thô (3NF)
 │   └── Modification.sql                     # Script tối ưu vận hành (Views and Stored Procedures)
+│   ├── WEEK02_DataPreprocessing.ipynb       # Script làm sạch, chuẩn hóa dữ liệu thô (3NF)
+│   └── Modification.ipynb                   # Script tối ưu vận hành (Views and Stored Procedures)
 │
 ├── Results/                                 # Kết quả phân tích & Business Insights
 │   ├── Pizza_Metrics_Results.ipynb          # Phần A: Các chỉ số Pizza
