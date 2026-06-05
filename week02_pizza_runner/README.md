@@ -4,27 +4,27 @@
 
 ```text
 week02_pizza_runner/
-├── Docs/                                    # Tài liệu và sơ đồ thiết kế hệ thống
-│   ├── pizza_runner_workflow.png            # Sơ đồ luồng vận hành của hệ thống
-│   ├── 01_erd_loi_mo_coi.png                # ERD ban đầu (Phát hiện lỗi quan hệ mồ côi)
-│   ├── 02_erd_sua_rang_buoc.png             # ERD giai đoạn 2 (Sửa đổi các ràng buộc PK/FK)
-│   └── 03_erd_cau_truc_bonus.png              # ERD hoàn thiện cuối cùng (Hỗ trợ mở rộng Menu)
+├── Docs/                                        # Tài liệu và sơ đồ thiết kế hệ thống
+│   ├── pizza_runner_workflow.png                # Sơ đồ luồng vận hành của hệ thống
+│   ├── 01_erd_loi_mo_coi.png                    # ERD ban đầu (Phát hiện lỗi quan hệ mồ côi)
+│   ├── 02_erd_sua_rang_buoc.png                 # ERD giai đoạn 2 (Sửa đổi các ràng buộc PK/FK)
+│   └── 03_erd_cau_truc_bonus.png                # ERD hoàn thiện cuối cùng (Hỗ trợ mở rộng Menu)
 │
-├── sql_scripts/                             # Mã nguồn SQL xử lý dữ liệu
-│   ├── WEEK02_DataPreprocessing.sql         # Script làm sạch, chuẩn hóa dữ liệu thô (3NF)
-│   └── Modification.sql                     # Script tối ưu vận hành (Views and Stored Procedures)
-│   ├── WEEK02_DataPreprocessing.ipynb       # Script làm sạch, chuẩn hóa dữ liệu thô (3NF)
-│   └── Modification.ipynb                   # Script tối ưu vận hành (Views and Stored Procedures)
+├── sql_scripts/                                 # Mã nguồn SQL xử lý dữ liệu
+│   ├── WEEK02_DataPreprocessing.sql             # Script làm sạch, chuẩn hóa dữ liệu thô (3NF)
+│   └── Modification.sql                         # Script tối ưu vận hành (Views and Stored Procedures)
+│   ├── WEEK02_DataPreprocessing.ipynb           # Script làm sạch, chuẩn hóa dữ liệu thô (3NF)
+│   └── Modification.ipynb                       # Script tối ưu vận hành (Views and Stored Procedures)
 │
-├── Results/                                 # Kết quả phân tích & Business Insights
-│   ├── 00_Business_Context                  # Bối cảnh kinh doanh và kiến trúc phân tích 
-│   ├── 01_Pizza_Metrics_Results.ipynb          # Phần A: Các chỉ số Pizza
-│   ├── 02_Runner_and_Customer_Experience.ipynb # Phần B: Hiệu suất tài xế & Trải nghiệm khách hàng
-│   ├── 03_Ingredient_Optimisation_Results.ipynb# Phần C: Tối ưu hóa nguyên liệu (Toppings)
-│   ├── 04_Pricing_and_Ratings_Results.ipynb    # Phần D: Định giá, doanh thu & Lợi nhuận ròng
-│   └── 05_Bonus_Questions_Results.ipynb        # Phần Bonus: Thử nghiệm Stored Procedure mới
+├── Results/                                     # Kết quả phân tích & Business Insights
+│   ├── 00_Business_Context                      # Bối cảnh kinh doanh và kiến trúc phân tích 
+│   ├── 01_Pizza_Metrics_Results.ipynb           # Phần A: Các chỉ số Pizza
+│   ├── 02_Runner_and_Customer_Experience.ipynb  # Phần B: Hiệu suất tài xế & Trải nghiệm khách hàng
+│   ├── 03_Ingredient_Optimisation_Results.ipynb # Phần C: Tối ưu hóa nguyên liệu (Toppings)
+│   ├── 04_Pricing_and_Ratings_Results.ipynb     # Phần D: Định giá, doanh thu & Lợi nhuận ròng
+│   └── 05_Bonus_Questions_Results.ipynb         # Phần Bonus: Thử nghiệm Stored Procedure mới
 │
-└── README.md                                # Tổng quan dự án và báo cáo kết quả
+└── README.md                                    # Tổng quan dự án và báo cáo kết quả
 ```
 
 ## 1. TỔNG QUAN DỰ ÁN
