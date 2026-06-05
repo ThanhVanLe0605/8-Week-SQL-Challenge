@@ -17,6 +17,7 @@ week02_pizza_runner/
 │   └── Modification.ipynb                   # Script tối ưu vận hành (Views and Stored Procedures)
 │
 ├── Results/                                 # Kết quả phân tích & Business Insights
+│   ├── 00_Business_Context                  # Bối cảnh kinh doanh và kiến trúc phân tích 
 │   ├── Pizza_Metrics_Results.ipynb          # Phần A: Các chỉ số Pizza
 │   ├── Runner_and_Customer_Experience.ipynb # Phần B: Hiệu suất tài xế & Trải nghiệm khách hàng
 │   ├── Ingredient_Optimisation_Results.ipynb# Phần C: Tối ưu hóa nguyên liệu (Toppings)
