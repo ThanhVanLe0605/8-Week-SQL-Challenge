@@ -18,11 +18,11 @@ week02_pizza_runner/
 │
 ├── Results/                                 # Kết quả phân tích & Business Insights
 │   ├── 00_Business_Context                  # Bối cảnh kinh doanh và kiến trúc phân tích 
-│   ├── Pizza_Metrics_Results.ipynb          # Phần A: Các chỉ số Pizza
-│   ├── Runner_and_Customer_Experience.ipynb # Phần B: Hiệu suất tài xế & Trải nghiệm khách hàng
-│   ├── Ingredient_Optimisation_Results.ipynb# Phần C: Tối ưu hóa nguyên liệu (Toppings)
-│   ├── Pricing_and_Ratings_Results.ipynb    # Phần D: Định giá, doanh thu & Lợi nhuận ròng
-│   └── Bonus_Questions_Results.ipynb        # Phần Bonus: Thử nghiệm Stored Procedure mới
+│   ├── 01_Pizza_Metrics_Results.ipynb          # Phần A: Các chỉ số Pizza
+│   ├── 02_Runner_and_Customer_Experience.ipynb # Phần B: Hiệu suất tài xế & Trải nghiệm khách hàng
+│   ├── 03_Ingredient_Optimisation_Results.ipynb# Phần C: Tối ưu hóa nguyên liệu (Toppings)
+│   ├── 04_Pricing_and_Ratings_Results.ipynb    # Phần D: Định giá, doanh thu & Lợi nhuận ròng
+│   └── 05_Bonus_Questions_Results.ipynb        # Phần Bonus: Thử nghiệm Stored Procedure mới
 │
 └── README.md                                # Tổng quan dự án và báo cáo kết quả
 ```
